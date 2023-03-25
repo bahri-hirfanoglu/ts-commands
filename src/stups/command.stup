@@ -1,0 +1,20 @@
+import { ICommand } from "../ICommand";
+
+export class {{class}} implements ICommand {
+  /**
+   * name of the command
+   * @param {string}
+   */
+  name: string = "{{command_name}}";
+
+  /**
+   * description of the task of the command
+   * @param {string}
+   */
+  description: string = "{{command_description}}";
+
+  /**
+   * @return {void}
+   */
+  process(): void {}
+}

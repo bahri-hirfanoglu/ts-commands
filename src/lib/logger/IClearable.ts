@@ -1,0 +1,3 @@
+interface Clearable {
+  clear(): void;
+}
