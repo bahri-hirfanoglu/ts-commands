@@ -1,12 +1,17 @@
 import { ICommand } from "../ICommand";
-
+import { ConsoleLog } from "../lib/logger/ConsoleLog";
 export default class HelloWorld implements ICommand {
-  
   name: string = "hello-world";
-  
+
   description: string = "Hello World Process";
 
+  log: ConsoleLog;
+
+  constructor() {
+    this.log = new ConsoleLog();
+  }
+
   process(): void {
-    console.log("Hello World");
+    this.log.debug("test");
   }
 }

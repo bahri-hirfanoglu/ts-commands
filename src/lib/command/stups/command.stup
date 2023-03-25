@@ -1,4 +1,5 @@
 import { ICommand } from "../ICommand";
+import { ConsoleLog } from "../lib/logger/ConsoleLog";
 
 export class {{class}} implements ICommand {
   /**
@@ -13,6 +14,12 @@ export class {{class}} implements ICommand {
    */
   description: string = "{{command_description}}";
 
+  log: ConsoleLog;
+
+  constructor() {
+    this.log = new ConsoleLog();
+  }
+  
   /**
    * @return {void}
    */
