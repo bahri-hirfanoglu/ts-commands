@@ -1,4 +1,4 @@
-export class ConsoleLog implements Logger, Clearable {
+export class ConsoleLog implements Logger, IClearable {
   clear() {
     console.clear();
   }

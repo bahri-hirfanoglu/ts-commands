@@ -1,10 +1,10 @@
-export interface Result {
+export interface IResult {
   status: boolean;
   data: Object;
-  errors?: Array<Error>;
+  errors?: Array<IError>;
 }
 
-export interface Error {
+export interface IError {
   code: number;
   detail: string;
 }

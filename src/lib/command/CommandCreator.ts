@@ -3,7 +3,7 @@ import {
   generateCommandDescription,
 } from "../helpers/creatorHelper";
 
-import { Result } from "./interfaces";
+import { IResult } from "./interfaces";
 
 export class CommandCreator {
   name: string;
@@ -16,7 +16,7 @@ export class CommandCreator {
     this.description = description ?? generateCommandDescription(className);
   }
 
-  create(): Result {
+  create(): IResult {
     return {
       status: true,
       data: {},
