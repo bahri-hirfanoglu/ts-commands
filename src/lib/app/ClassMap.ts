@@ -1,13 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import { IClassMap } from "./interfaces/IClassMap";
+import { IProperties } from "./interfaces/IProperties";
 
 export class ClassMap {
-  commandsPath: string;
+  properties: IProperties;
   classes: IClassMap;
 
-  constructor(commandsPath: string) {
-    this.commandsPath = commandsPath;
+  constructor(properties: IProperties) {
+    this.properties = properties;
     this.classes = this.createClassMap();
   }
 
@@ -15,8 +16,12 @@ export class ClassMap {
   createClassMap(): IClassMap {
     // Initialize an empty object to store the class map
     const classMap: IClassMap = {};
+
+    if (!fs.existsSync(this.properties.commandPath)) {
+      throw new Error("command path not found");
+    }
     // Read the files in the directory containing the commands
-    const files = fs.readdirSync(this.commandsPath);
+    const files = fs.readdirSync(this.properties.commandPath);
     // Iterate through each file
     files.forEach((file) => {
       // Get the file extension
@@ -28,7 +33,7 @@ export class ClassMap {
       // Get the class name from the file name (without the extension)
       const className = path.basename(file, extname);
       // Get the module path by joining the commands path with the file name
-      const modulePath = path.join(this.commandsPath, file);
+      const modulePath = path.join(this.properties.commandPath, file);
       // Require the module and get the exported class (if it exists)
       const importedModule = require(modulePath);
       for (const key in importedModule) {

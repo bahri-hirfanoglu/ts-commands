@@ -1,4 +1,4 @@
-import { ICommand } from "../lib/command/interfaces/ICommand";
+import { ICommand } from "../lib/app/interfaces/ICommand";
 import { ConsoleLog } from "../lib/logger/ConsoleLog";
 export default class HelloWorld implements ICommand {
   name: string = "hello-world";
