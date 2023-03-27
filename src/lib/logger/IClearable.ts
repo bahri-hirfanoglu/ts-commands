@@ -1,3 +1,3 @@
-interface IClearable {
+export interface IClearable {
   clear(): void;
 }

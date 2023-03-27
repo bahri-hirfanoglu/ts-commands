@@ -1,3 +1,5 @@
+import { Logger } from './ILogger';
+import { IClearable } from './IClearable';
 export class ConsoleLog implements Logger, IClearable {
   clear() {
     console.clear();
