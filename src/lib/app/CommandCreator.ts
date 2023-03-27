@@ -16,6 +16,15 @@ export class CommandCreator {
     if (!this.helper.existsCommandPath()) {
       this.helper.createCommandPath();
     }
+
+    let stup = this.helper.readStupFile();
+    for (const [key, value] of Object.entries(command)) {
+      stup = stup.replace('{{' + key + '}}', value);
+    }
+    this.helper.checkCommandClass(command.className, stup);
+
+    //fs.writeFileSync(`${this._properties.commandPath}/${command.className}`, '');
+
     return {
       status: true,
       data: {},

@@ -1,25 +1,18 @@
-import { ICommand } from "../ICommand";
-import { ConsoleLog } from "../lib/logger/ConsoleLog";
+import { ICommand } from "./ICommand";
 
-export class {{class}} implements ICommand {
+export class {{className}} implements ICommand {
   /**
    * name of the command
    * @param {string}
    */
-  name: string = "{{command_name}}";
+  name: string = "{{name}}";
 
   /**
    * description of the task of the command
    * @param {string}
    */
-  description: string = "{{command_description}}";
+  description: string = "{{description}}";
 
-  log: ConsoleLog;
-
-  constructor() {
-    this.log = new ConsoleLog();
-  }
-  
   /**
    * @return {void}
    */

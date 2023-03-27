@@ -11,6 +11,7 @@ export class TSCommand {
 
   private _properties: IProperties = {
     commandPath: `${__dirname}/commands`,
+    stupPath: "../stups/command.stup",
   };
 
   constructor(properties?: IProperties) {
