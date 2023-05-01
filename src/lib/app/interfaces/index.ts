@@ -1,6 +1,6 @@
 export interface IResult {
   status: boolean;
-  data: Object;
+  data?: Object;
   errors?: Array<IError>;
 }
 

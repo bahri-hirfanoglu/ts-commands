@@ -21,16 +21,16 @@ export class TSCommand {
     this._commandCreator = new CommandCreator(this._properties);
   }
 
-  getClassMap() {
-    this;
-  }
-
   setProperties(properties: IProperties) {
     this._properties = properties;
   }
 
   createCommand(command: TCommand) {
     this._commandCreator.create(command);
+  }
+
+  runCommand(signature: string) {
+    this._commandRunner.run(signature);
   }
 
   reloadClassMap() {}

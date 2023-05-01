@@ -34,16 +34,12 @@ export class CommandHelper {
     throw new Error("properties in stupPath undefined");
   }
 
-  checkCommandClass(className: string, stupData: string) {
-    let path = `${this.properties.commandPath}/${className}`
-    if(!className.endsWith('.ts')) {
-      path = `${this.properties.commandPath}/${className}.ts`
+  getCommandClassPath(className: string) {
+    let path = `${this.properties.commandPath}/${className}`;
+    if (!className.endsWith(".ts")) {
+      path = `${this.properties.commandPath}/${className}.ts`;
     }
-    console.log(fs.writeFileSync(path, stupData))
-  }
-
-  createCommandInterface() {
-    
+    return path;
   }
 
   createFolderIfNotExist(targetPath: string) {
@@ -52,5 +48,23 @@ export class CommandHelper {
       this.createFolderIfNotExist(parentPath);
       fs.mkdirSync(targetPath);
     }
+  }
+
+  getSignatureClassInstance(signature: string) {
+    const files = fs.readdirSync(this.properties.commandPath);
+    for (const file of files) {
+      const filePath = path.join(this.properties.commandPath, file);
+
+      if (filePath.endsWith(".ts")) {
+        console.log(filePath)
+        const commandClass = require(filePath).default;
+        const commandClassInstance = new commandClass();
+        console.log(commandClassInstance)
+        if (commandClassInstance.signature === signature) {
+          return commandClassInstance;
+        }
+      }
+    }
+    return null;
   }
 }
