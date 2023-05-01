@@ -1,4 +1,4 @@
-export default class Test  {
+export default class Test {
   /**
    * signature of the command
    * @param {string}
@@ -14,5 +14,7 @@ export default class Test  {
   /**
    * @return {void}
    */
-  process(): void {}
+  process(): void {
+    console.log("Test command run");
+  }
 }
