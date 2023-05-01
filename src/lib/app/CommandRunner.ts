@@ -2,6 +2,7 @@ import { ClassMap } from "./ClassMap";
 import { IProperties } from "./interfaces/IProperties";
 import { TCommand } from "../../lib/app/types/TCommand";
 import { CommandHelper } from "../helpers/CommandHelper";
+import { IResult } from "./interfaces";
 
 export class CommandRunner {
   private _properties: IProperties;
@@ -17,8 +18,12 @@ export class CommandRunner {
     this._properties = properties;
   }
 
-  run(signature: string) {
-    const commandInstance = this.helper.getSignatureClassInstance(signature);
-    console.log(commandInstance);
+  run(signature: string) : IResult {
+    const result : IResult = this.helper.getSignatureClassInstance(signature);
+    if(result.status) {
+      const commandInstance = result.data;
+      commandInstance.process();
+    }
+    return result;
   }
 }

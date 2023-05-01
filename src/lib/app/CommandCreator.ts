@@ -23,15 +23,14 @@ export class CommandCreator {
     const path = this.helper.getCommandClassPath(command.className);
     try {
       fs.writeFileSync(path, stup);
-    } catch (e) {
-      // return {
-      //   status: false,
-      //   errors: [{ code: e.code, detail: e.message }],
-      // };
+    } catch (error: any) {
+      return {
+        status: false,
+        errors: [{ code: error.code, detail: error.message }],
+      };
     }
     return {
       status: true,
-      data: {},
     };
   }
 }

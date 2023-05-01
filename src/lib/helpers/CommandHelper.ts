@@ -1,6 +1,7 @@
 import { IProperties } from "../app/interfaces/IProperties";
 import * as fs from "fs";
 import * as path from "path";
+import { IResult } from "../app/interfaces";
 export class CommandHelper {
   private declare properties: IProperties;
 
@@ -50,21 +51,31 @@ export class CommandHelper {
     }
   }
 
-  getSignatureClassInstance(signature: string) {
-    const files = fs.readdirSync(this.properties.commandPath);
-    for (const file of files) {
-      const filePath = path.join(this.properties.commandPath, file);
-
-      if (filePath.endsWith(".ts")) {
-        console.log(filePath)
-        const commandClass = require(filePath).default;
-        const commandClassInstance = new commandClass();
-        console.log(commandClassInstance)
-        if (commandClassInstance.signature === signature) {
-          return commandClassInstance;
+  getSignatureClassInstance(signature: string): IResult {
+    try {
+      const files = fs.readdirSync(this.properties.commandPath);
+      for (const file of files) {
+        const filePath = path.join(this.properties.commandPath, file);
+        if (filePath.endsWith(".ts")) {
+          const commandClass = require(filePath).default;
+          const commandClassInstance = new commandClass();
+          if (commandClassInstance.signature === signature) {
+            return {
+              status: true,
+              data: commandClassInstance,
+            };
+          }
         }
       }
+    } catch (error: any) {
+      return {
+        status: false,
+        errors: [{ code: error.code, detail: error.message }],
+      };
     }
-    return null;
+    return {
+      status: false,
+      errors: [{ code: -1, detail: "unknown error" }],
+    };
   }
 }
