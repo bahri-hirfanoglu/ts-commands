@@ -2,7 +2,7 @@ import { IResult } from "./interfaces";
 import { TCommand } from "./types/TCommand";
 import { IProperties } from "./interfaces/IProperties";
 import { CommandHelper } from "../helpers/CommandHelper";
-
+import fs from "fs";
 export class CommandCreator {
   private _properties: IProperties;
   private helper: CommandHelper;
@@ -16,15 +16,19 @@ export class CommandCreator {
     if (!this.helper.existsCommandPath()) {
       this.helper.createCommandPath();
     }
-
     let stup = this.helper.readStupFile();
     for (const [key, value] of Object.entries(command)) {
-      stup = stup.replace('{{' + key + '}}', value);
+      stup = stup.replace("{{" + key + "}}", value);
     }
-    this.helper.checkCommandClass(command.className, stup);
-
-    //fs.writeFileSync(`${this._properties.commandPath}/${command.className}`, '');
-
+    const path = this.helper.getCommandClassPath(command.className);
+    try {
+      fs.writeFileSync(path, stup);
+    } catch (e) {
+      // return {
+      //   status: false,
+      //   errors: [{ code: e.code, detail: e.message }],
+      // };
+    }
     return {
       status: true,
       data: {},
