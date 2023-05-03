@@ -18,12 +18,13 @@ export class CommandRunner {
     this._properties = properties;
   }
 
-  run(signature: string) : IResult {
+  run(signature: string) {
     const result : IResult = this.helper.getSignatureClassInstance(signature);
     if(result.status) {
       const commandInstance = result.data;
-      commandInstance.process();
+      const commandResult = commandInstance.process();
+      this.helper.log(result, `${signature} successfully run! Result: ${commandResult}`)
     }
-    return result;
+    this.helper.log(result);
   }
 }

@@ -2,6 +2,7 @@ import { IProperties } from "../app/interfaces/IProperties";
 import * as fs from "fs";
 import * as path from "path";
 import { IResult } from "../app/interfaces";
+import errors from "../errors";
 export class CommandHelper {
   private declare properties: IProperties;
 
@@ -35,6 +36,11 @@ export class CommandHelper {
     throw new Error("properties in stupPath undefined");
   }
 
+  /**
+   *
+   * @param className
+   * @returns
+   */
   getCommandClassPath(className: string) {
     let path = `${this.properties.commandPath}/${className}`;
     if (!className.endsWith(".ts")) {
@@ -43,6 +49,10 @@ export class CommandHelper {
     return path;
   }
 
+  /**
+   *
+   * @param targetPath
+   */
   createFolderIfNotExist(targetPath: string) {
     if (!fs.existsSync(targetPath)) {
       const parentPath = path.dirname(targetPath);
@@ -51,6 +61,11 @@ export class CommandHelper {
     }
   }
 
+  /**
+   *
+   * @param signature
+   * @returns
+   */
   getSignatureClassInstance(signature: string): IResult {
     try {
       const files = fs.readdirSync(this.properties.commandPath);
@@ -64,6 +79,11 @@ export class CommandHelper {
               status: true,
               data: commandClassInstance,
             };
+          } else {
+            return {
+              status: false,
+              errors: [errors.SIGNATURE_NOT_FOUND],
+            };
           }
         }
       }
@@ -75,7 +95,23 @@ export class CommandHelper {
     }
     return {
       status: false,
-      errors: [{ code: -1, detail: "unknown error" }],
+      errors: [errors.UNKNOWN],
     };
+  }
+
+  log(result: IResult, message?: string) {
+    if (message) {
+      console.log(message);
+      return;
+    }
+    if (!result.status) {
+      console.log(
+        result.errors
+          ?.map((result) => {
+            return `code: ${result.code} message: ${result.detail}`;
+          })
+          .join("\n")
+      );
+    }
   }
 }
