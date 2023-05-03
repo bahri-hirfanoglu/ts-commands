@@ -12,7 +12,9 @@ export default class {{className}}  {
   description: string = "{{description}}";
 
   /**
-   * @return {void}
+   * @return {Number}
    */
-  process(): void {}
+  process(): Number {
+    return 0;
+  }
 }

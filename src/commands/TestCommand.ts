@@ -1,4 +1,4 @@
-export default class Test {
+export default class TestCommand  {
   /**
    * signature of the command
    * @param {string}
@@ -9,12 +9,12 @@ export default class Test {
    * description of the task of the command
    * @param {string}
    */
-  description: string = "Test description";
+  description: string = "TestCommand description";
 
   /**
-   * @return {void}
+   * @return {Number}
    */
-  process(): void {
-    console.log("Test command run");
+  process(): Number {
+    return 0;
   }
 }
