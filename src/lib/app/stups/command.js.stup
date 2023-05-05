@@ -1,0 +1,24 @@
+"use strict";
+
+class {{className}}  {
+  /**
+   * signature of the command
+   * @param {string}
+   */
+  signature = "{{signature}}";
+
+  /**
+   * description of the task of the command
+   * @param {string}
+   */
+  description = "{{description}}";
+
+  /**
+   * @return {Number}
+   */
+  process() {
+    return 0;
+  }
+}
+
+exports.default = {{className}};

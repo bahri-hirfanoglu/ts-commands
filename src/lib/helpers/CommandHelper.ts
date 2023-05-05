@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { IResult } from "../app/interfaces";
 import errors from "../errors";
+import { TCommand } from "../app/types/TCommand";
 export class CommandHelper {
   private declare properties: IProperties;
 
@@ -18,6 +19,10 @@ export class CommandHelper {
     this.createFolderIfNotExist(this.properties.commandPath);
   }
 
+  getBaseExtension(): string {
+    return this.properties.extName ?? ".ts";
+  }
+
   readStupFile(): string {
     if (this.properties.stupPath) {
       const stupPath = path.join(
@@ -26,7 +31,7 @@ export class CommandHelper {
         "lib",
         "app",
         "stups",
-        "command.stup"
+        `command${this.getBaseExtension()}.stup`
       );
       if (fs.existsSync(stupPath)) {
         return fs.readFileSync(stupPath, "utf-8") as string;
@@ -43,8 +48,9 @@ export class CommandHelper {
    */
   getCommandClassPath(className: string) {
     let path = `${this.properties.commandPath}/${className}`;
-    if (!className.endsWith(".ts")) {
-      path = `${this.properties.commandPath}/${className}.ts`;
+    const extName: string = this.getBaseExtension();
+    if (!className.endsWith(extName)) {
+      path = `${this.properties.commandPath}/${className}${extName}`;
     }
     return path;
   }
@@ -71,8 +77,8 @@ export class CommandHelper {
       const files = fs.readdirSync(this.properties.commandPath);
       for (const file of files) {
         const filePath = path.join(this.properties.commandPath, file);
-        if (filePath.endsWith(".ts")) {
-          const commandClass = require(filePath).default;
+        if (filePath.endsWith(this.getBaseExtension())) {
+          const commandClass = require(filePath.replace('.js', '')).default;
           const commandClassInstance = new commandClass();
           if (commandClassInstance.signature === signature) {
             return {
@@ -99,6 +105,20 @@ export class CommandHelper {
     };
   }
 
+  getStupFileData(command: TCommand): string {
+    let stup = this.readStupFile();
+    for (const [key, value] of Object.entries(command)) {
+      stup = stup.replaceAll("{{" + key + "}}", value);
+    }
+    return stup;
+  }
+
+  /**
+   *
+   * @param result
+   * @param message
+   * @returns
+   */
   log(result: IResult, message?: string) {
     if (message) {
       console.log(message);
@@ -113,5 +133,25 @@ export class CommandHelper {
           .join("\n")
       );
     }
+  }
+
+  /**
+   *
+   * @param str
+   * @returns
+   */
+  toCamelCase(str: string): string {
+    return str.replace(/[-_]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ""));
+  }
+
+  /**
+   *
+   * @param str
+   * @returns
+   */
+  toKebabCase(str: string): string {
+    return str
+      .replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)
+      .replace(/^-/, "");
   }
 }
