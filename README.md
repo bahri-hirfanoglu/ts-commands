@@ -1,10 +1,10 @@
-# TS Command
+# 🔵 TSC
 
-TS Command is a TypeScript project that allows you to create and run command files, similar to Laravel command structure.
+TSC is a TypeScript project that allows you to create and run command files, similar to Laravel command structure.
 
 ## Installation
 
-To use TS Command, you should have Node.js and npm installed on your machine. Then, run the following command to install the dependencies:
+To use TSC, you should have Node.js and npm installed on your machine. Then, run the following command to install the dependencies:
 
 ```
 npm install
@@ -68,12 +68,12 @@ class HelloCommand  {
 
 exports.default = HelloCommand;
 ```
-
+Then run the command:
  ```
  npm run start hello-command
 ```
 **Result:**
-```
+```js
 ❯ npm run start hello-command
 
 > ts-commands@1.0.0 start
@@ -87,10 +87,10 @@ Result: 0
 We welcome contributions to improve the functionality and usability of our project. To get started, please follow these steps:
 
 * Fork this repository and clone it to your local machine.
-* Create a new branch for your changes: git checkout -b feature/your-feature-name
+* Create a new branch for your changes: **git checkout -b feature/your-feature-name**
 * Make your changes and test thoroughly.
-* Commit your changes: git commit -am 'Add some feature'
-* Push your changes to your fork: git push origin feature/your-feature-name
+* Commit your changes: **git commit -am 'Add some feature'**
+* Push your changes to your fork: git push origin **feature/your-feature-name**
 * Open a pull request and describe your changes in detail.
 * Before submitting a pull request, please make sure that your changes adhere to our coding standards and that all tests pass. We also ask that you follow our code of conduct and be respectful to other contributors.
 
