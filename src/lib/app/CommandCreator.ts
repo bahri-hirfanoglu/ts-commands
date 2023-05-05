@@ -12,25 +12,36 @@ export class CommandCreator {
     this.helper.setProperties(this._properties);
   }
 
+  commandFormat(command: TCommand) {
+    command.className = this.helper.toCamelCase(command.className);
+    command.signature = this.helper.toKebabCase(
+      command.signature ?? command.className
+    );
+  }
+
   create(command: TCommand): IResult {
-    if (!this.helper.existsCommandPath()) {
-      this.helper.createCommandPath();
-    }
-    let stup = this.helper.readStupFile();
-    for (const [key, value] of Object.entries(command)) {
-      stup = stup.replace("{{" + key + "}}", value);
-    }
-    const path = this.helper.getCommandClassPath(command.className);
     try {
+      if (!this.helper.existsCommandPath()) {
+        this.helper.createCommandPath();
+      }
+      this.commandFormat(command);
+      const path = this.helper.getCommandClassPath(command.className);
+      const stup = this.helper.getStupFileData(command);
       fs.writeFileSync(path, stup);
+      const result: IResult = {
+        status: true,
+        data: command,
+      };
+      this.helper.log(
+        result,
+        `[${result.data.className}] command created success!\nCommand Signature: ${result.data.signature}`
+      );
+      return result;
     } catch (error: any) {
       return {
         status: false,
         errors: [{ code: error.code, detail: error.message }],
       };
     }
-    return {
-      status: true,
-    };
   }
 }

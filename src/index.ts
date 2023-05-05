@@ -3,6 +3,7 @@ import { CommandCreator } from "./lib/app/CommandCreator";
 import { CommandRunner } from "./lib/app/CommandRunner";
 import { IProperties } from "./lib/app/interfaces/IProperties";
 import { TCommand } from "./lib/app/types/TCommand";
+import * as path from "path";
 
 export class TSCommand {
   private _commandRunner: CommandRunner;
@@ -15,10 +16,18 @@ export class TSCommand {
   };
 
   constructor(properties?: IProperties) {
-    if (properties) this._properties = properties;
+    if (properties) {
+      this._properties = properties;
+    }
+    this.setBaseExtension();
     this._classMap = new ClassMap(this._properties);
     this._commandRunner = new CommandRunner(this._properties);
     this._commandCreator = new CommandCreator(this._properties);
+  }
+
+  setBaseExtension() {
+    const script: string = path.basename(process.argv[1]);
+    this._properties.extName = path.extname(script);
   }
 
   setProperties(properties: IProperties) {

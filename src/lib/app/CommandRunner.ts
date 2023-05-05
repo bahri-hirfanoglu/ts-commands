@@ -1,6 +1,5 @@
 import { ClassMap } from "./ClassMap";
 import { IProperties } from "./interfaces/IProperties";
-import { TCommand } from "../../lib/app/types/TCommand";
 import { CommandHelper } from "../helpers/CommandHelper";
 import { IResult } from "./interfaces";
 
@@ -23,7 +22,7 @@ export class CommandRunner {
     if(result.status) {
       const commandInstance = result.data;
       const commandResult = commandInstance.process();
-      this.helper.log(result, `${signature} successfully run! Result: ${commandResult}`)
+      this.helper.log(result, `[${signature}] command run success!\nResult: ${commandResult}`)
     }
     this.helper.log(result);
   }

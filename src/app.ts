@@ -21,19 +21,15 @@ commands.setProperties({
  */
 program
   .command("make-command")
-  .option("-n, --name <name>", "Enter class name")
-  .option("-s, --signature <signature>", "Enter command signature")
-  .option("-d, --description <description>", "Enter command description")
+  .option("-n, --name <name>", "Enter command class name")
   .description(
-    "runs the specified script [options]: --name --signature --description"
+    "runs the specified script [options]: --name"
   )
   .action((options: any) => {
     const name = options.name || null;
-    const signature = options.signature;
     const description = options.description || `${name} description`;
     commands.createCommand({
       className: name,
-      signature: signature,
       description: description,
     });
   });
